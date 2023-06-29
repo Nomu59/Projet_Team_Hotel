@@ -145,10 +145,32 @@ class DBManager
         }
 }
 
-// $bdd = new DBManager('mysql:host=localhost;dbname=Hotel;charset=utf8mb4', 'root', "");
+$bdd = new DBManager('mysql:host=localhost;dbname=Hotel;charset=utf8mb4', 'root', "");
 // $bdd->insertClient(1, "Loick", "adresse", "0611225544", "France", 1);
 // // $bdd->insertUtilisateur("login", "pass");
-// // $bdd->insertChambre(102, 2, 250, "fgd", 5);
+// $bdd->insertChambre(102, 2, 250, "fgd", 5);
 // // $bdd->insertCategorie(1, "df");
 // // $bdd->insertReservation(1,"2023/12/12",145,1,"2023/12/12","2023/12/12");
 // print_r($bdd->selectListeUtilisateur());
+
+
+
+//crée utilisateur admin
+$bdd->insertUtilisateur("admin", "admin");
+
+//crée les categories de chambre
+$bdd->insertCategorie(1, "Luxe");
+$bdd->insertCategorie(2, "SuperLuxe");
+$bdd->insertCategorie(3, "UltraLuxe");
+
+
+//crée les chambres avec 3 categories
+for ($i = 0; $i < 30; $i++) {
+        if ($i >= 20) {
+                $bdd->insertChambre(100 + $i, 3, 579, "est", 3);
+        } else if ($i >= 10 && $i < 20) {
+                $bdd->insertChambre(100 + $i, 2, 1276, "sud", 2);
+        } else if ($i < 10) {
+                $bdd->insertChambre(100 + $i, 1, 3412, "nord", 1);
+        }
+}
