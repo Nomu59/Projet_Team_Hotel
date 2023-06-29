@@ -145,7 +145,6 @@ class DBManager
         }
 }
 
-$bdd = new DBManager('mysql:host=localhost;dbname=Hotel;charset=utf8mb4', 'root', "");
 // $bdd->insertClient(1, "Loick", "adresse", "0611225544", "France", 1);
 // // $bdd->insertUtilisateur("login", "pass");
 // $bdd->insertChambre(102, 2, 250, "fgd", 5);
@@ -153,7 +152,10 @@ $bdd = new DBManager('mysql:host=localhost;dbname=Hotel;charset=utf8mb4', 'root'
 // // $bdd->insertReservation(1,"2023/12/12",145,1,"2023/12/12","2023/12/12");
 // print_r($bdd->selectListeUtilisateur());
 
+//crée un lien vers la base de donnée
+$bdd = new DBManager('mysql:host=localhost;dbname=Hotel;charset=utf8mb4', 'root', "");
 
+// 
 
 //crée utilisateur admin
 $bdd->insertUtilisateur("admin", "admin");
