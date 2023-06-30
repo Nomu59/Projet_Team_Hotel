@@ -41,36 +41,37 @@ class DBManager
         //methode qui ajoute une personne
         public function insertClient($codclient, $prenomClient, $adressClient, $teleClient, $Nationalité, $NumPasse): void
         {
-                $sql = "INSERT INTO client (`cod-client`, `prenom-Client`, `adress-Client`, `tele-Client`, `Nationalité`, `Num-Passe`) VALUES (?, ?, ?, ?, ?, ?)";
+                $sql = "INSERT INTO client (`cod-client`, `prenom-Client`, `adress-Client`, `tele_Client`, `Nationalite`, `Num-Passe`) VALUES (?, ?, ?, ?, ?, ?)";
                 $stmt = $this->bdd->prepare($sql);
                 $stmt->execute([$codclient, $prenomClient, $adressClient, $teleClient, $Nationalité, $NumPasse]);
         }
 
-        public function insertUtilisateur($login, $motdepasse): void
+        public function insertUtilisateur($login, $motdepasse, $codClient): void
         {
-                $sql = "INSERT INTO utilisateur (`login`,`mot-de-passe`) VALUES (?, ?)";
+                $sql = "INSERT INTO utilisateur (`login`,`mot_de_passe`,`cod_client`) VALUES (?, ?, ?)";
                 $stmt = $this->bdd->prepare($sql);
-                $stmt->execute([$login, $motdepasse]);
+                $stmt->execute([$login, $motdepasse, $codClient]);
         }
         public function insertChambre($numChambre, $etage, $prix, $emplacement, $codeCategorie): void
         {
-                $sql = "INSERT INTO chambre (`num-chambre`,`etage`,`prix`,`emplacement`,`code-categorie`) VALUES (?, ?, ?, ?, ?)";
+                $sql = "INSERT INTO chambre (`num_chamb`,`etage`,`Prix`,`emplacement`,`code_categorie`) VALUES (?, ?, ?, ?, ?)";
                 $stmt = $this->bdd->prepare($sql);
                 $stmt->execute([$numChambre, $etage, $prix, $emplacement, $codeCategorie]);
         }
 
-        public function insertCategorie($codeCategorie, $designation): void
+        public function insertCategorie($codeCategorie, $designation, $numChamb): void
         {
-                $sql = "INSERT INTO categorie (`code-categorie`,`designation`) VALUES (?,?)";
+                $sql = "INSERT INTO categorie (`Code_categorie`,`Designation`,`num_chamb`) VALUES (?,?,?)";
                 $stmt = $this->bdd->prepare($sql);
-                $stmt->execute([$codeCategorie, $designation]);
+                $stmt->execute([$codeCategorie, $designation, $numChamb]);
         }
-        public function insertReservation($numReservation, $dateReservation, $numchambre, $codeClient, $dateEntree, $dateSortie): void
+        public function insertReservation($numReservation, $dateReservation, $numchambre, $codeClient, $dateEntree, $dateSortie, $codClient): void
         {
-                $sql = "INSERT INTO reservation (`num-reservation`,`date-reservation`,`num-chambre`,`code-client`,`date-entree`,`date-sortie`) VALUES (?,?,?,?,?,?)";
+                $sql = "INSERT INTO reservation (`Num_reservation`,`Date_reservation`,`num_chambre`,`code_client`,`date_entree`,`date_sortie`,`cod_client`) VALUES (?,?,?,?,?,?,?)";
                 $stmt = $this->bdd->prepare($sql);
-                $stmt->execute([$numReservation, $dateReservation, $numchambre, $codeClient, $dateEntree, $dateSortie]);
+                $stmt->execute([$numReservation, $dateReservation, $numchambre, $codeClient, $dateEntree, $dateSortie, $codClient]);
         }
+
 
 
         // //methode qui supprime un employe par son noemp
@@ -146,24 +147,22 @@ class DBManager
 }
 
 // $bdd->insertClient(1, "Loick", "adresse", "0611225544", "France", 1);
-// // $bdd->insertUtilisateur("login", "pass");
+// $bdd->insertUtilisateur("login", "pass", 2);
 // $bdd->insertChambre(102, 2, 250, "fgd", 5);
-// // $bdd->insertCategorie(1, "df");
-// // $bdd->insertReservation(1,"2023/12/12",145,1,"2023/12/12","2023/12/12");
+// $bdd->insertCategorie(1, "df", 102);
+// $bdd->insertReservation(1, "2023/12/12", 145, 1, "2023/12/12", "2023/12/12", 1);
 // print_r($bdd->selectListeUtilisateur());
 
 //crée un lien vers la base de donnée
-$bdd = new DBManager('mysql:host=localhost;dbname=Hotel;charset=utf8mb4', 'root', "");
-
-// 
+$bdd = new DBManager('mysql:host=localhost;dbname=teamhotel;charset=utf8mb4', 'root', "");ù
 
 //crée utilisateur admin
-$bdd->insertUtilisateur("admin", "admin");
+$bdd->insertUtilisateur("admin", "admin", 1);
 
 //crée les categories de chambre
-$bdd->insertCategorie(1, "Luxe");
-$bdd->insertCategorie(2, "SuperLuxe");
-$bdd->insertCategorie(3, "UltraLuxe");
+$bdd->insertCategorie(1, "Luxe", 100);
+$bdd->insertCategorie(2, "SuperLuxe", 110);
+$bdd->insertCategorie(3, "UltraLuxe", 120);
 
 
 //crée les chambres avec 3 categories
@@ -176,3 +175,5 @@ for ($i = 0; $i < 30; $i++) {
                 $bdd->insertChambre(100 + $i, 1, 3412, "nord", 1);
         }
 }
+
+$bdd->insertClient(4, "moi", "dfsd", "0102020202", "France", 2);
