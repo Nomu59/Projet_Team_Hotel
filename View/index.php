@@ -6,8 +6,12 @@
     <title>Reservation</title>
 </head>
 <body>
-
-<!-- Formulaire de pré remplissage pour la réservation -->
+<?php
+        if (isset($_GET['error'])) { ?>
+            <p><?php echo $_GET['error']; ?></p>
+        <?php } ?>
+        
+    <!-- Formulaire de pré remplissage pour la réservation -->
     <form action="reservation.php" method="post">
         <label for="arrivee">Arrivée</label>
         <input id="arrivee" name="arrivee" type="date" required/>
@@ -26,9 +30,10 @@
             <option value="ultraLuxe">Giga Luxe</option>
         </select>
 
-        <!-- Bouton pour voir les chambres disponibles -->
-        <a href="afficherChambre.php">Voir les chambres disponibles</a>
-
+        <input id="valider" name="valider" type="submit">
     </form>
+
+<!-- Bouton pour voir les chambres disponibles -->
+<a href="afficherChambre.php">Voir les chambres disponibles</a>
 </body>
 </html>
