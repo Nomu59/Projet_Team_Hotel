@@ -2,88 +2,219 @@
 
 class DBManager
 {
-        private $bdd;
-        private $lien;
-        private $id;
-        private $password;
+        private PDO $bdd;
+        private string $lien;
+        private string $id;
+        private string $password;
 
-        //constructeur qui initialise la connxion à la BDD
-        public function __construct($lien, $id, $password)
+        public function __construct(string $lien, string $id, string $password)
         {
-                //$this->bdd = new PDO('mysql:host=localhost;dbname=test;charset=utf8mb4', 'root', 'root');
                 $this->bdd = new PDO($lien, $id, $password);
         }
 
-        //Methode qui renvoie la liste des employés
         public function selectListeClient(): array
         {
-                $stmt = $this->bdd->prepare("SELECT * FROM `client`; ");
-                $stmt->execute();
-                $listeClient = $stmt->fetchAll();
+                $stmt = $this->bdd->prepare("SELECT * FROM `client`;");
+                $result = $stmt->execute();
+                if (!$result) {
+                        $errorInfo = $stmt->errorInfo();
+                        echo "Erreur SQL : " . $errorInfo[2];
+                        return [];
+                }
+                $listeClient = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 return $listeClient;
         }
-        public function selectListeChambre(): array
+
+        public function selectListeChambre($x): array
+        // x = 0 : selectionne toute les chambre
+        // x = 1 : selectionne les chambres libre
         {
-                $stmt = $this->bdd->prepare("SELECT * FROM `chambre`; ");
-                $stmt->execute();
-                $listeChambre = $stmt->fetchAll();
-                return $listeChambre;
+                if ($x == 0) {
+
+                        $stmt = $this->bdd->prepare("SELECT * FROM `chambre`;");
+                        $result = $stmt->execute();
+                        if (!$result) {
+                                $errorInfo = $stmt->errorInfo();
+                                echo "Erreur SQL : " . $errorInfo[2];
+                                return [];
+                        }
+                        $listeChambre = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                        return $listeChambre;
+                } else if ($x == 1) {
+                        $stmt = $this->bdd->prepare("SELECT * FROM chambre WHERE num_Chamb NOT IN (SELECT num_Chamb FROM reservation);");
+                        $result = $stmt->execute();
+                        if (!$result) {
+                                $errorInfo = $stmt->errorInfo();
+                                echo "Erreur SQL : " . $errorInfo[2];
+                                return [];
+                        }
+                        $listeChambre = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                        return $listeChambre;
+                }
         }
+
+        public function selectListeReservation(): array
+        {
+                $stmt = $this->bdd->prepare("SELECT * FROM `reservation`;");
+                $result = $stmt->execute();
+                if (!$result) {
+                        $errorInfo = $stmt->errorInfo();
+                        echo "Erreur SQL : " . $errorInfo[2];
+                        return [];
+                }
+                $listeReservation = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                return $listeReservation;
+        }
+
         public function selectListeUtilisateur(): array
         {
-                $stmt = $this->bdd->prepare("SELECT * FROM `utilisateur`; ");
-                $stmt->execute();
-                $listeUtilisateur = $stmt->fetchAll();
+                $stmt = $this->bdd->prepare("SELECT * FROM `utilisateur`;");
+                $result = $stmt->execute();
+                if (!$result) {
+                        $errorInfo = $stmt->errorInfo();
+                        echo "Erreur SQL : " . $errorInfo[2];
+                        return [];
+                }
+                $listeUtilisateur = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 return $listeUtilisateur;
         }
 
-
-        //methode qui ajoute une personne
-        public function insertClient($codclient, $prenomClient, $adressClient, $teleClient, $Nationalité, $NumPasse): void
+        // Méthode qui ajoute une personne
+        public function insertClient($codClient, $prenomClient, $adressClient, $teleClient, $nationalite, $numPasse): void
         {
-                $sql = "INSERT INTO client (`cod-client`, `prenom-Client`, `adress-Client`, `tele_Client`, `Nationalite`, `Num-Passe`) VALUES (?, ?, ?, ?, ?, ?)";
+                $sql = "INSERT INTO client (`cod_Client`, `prenom_Client`, `adress_Client`, `tele_Client`, `nationalite`, `num_Passe`) VALUES (?, ?, ?, ?, ?, ?)";
                 $stmt = $this->bdd->prepare($sql);
-                $stmt->execute([$codclient, $prenomClient, $adressClient, $teleClient, $Nationalité, $NumPasse]);
+                $result = $stmt->execute([$codClient, $prenomClient, $adressClient, $teleClient, $nationalite, $numPasse]);
+                if (!$result) {
+                        $errorInfo = $stmt->errorInfo();
+                        echo "Erreur SQL : " . $errorInfo[2];
+                }
         }
 
-        public function insertUtilisateur($login, $motdepasse, $codClient): void
+        public function insertUtilisateur($login, $motDePasse, $codClient): void
         {
-                $sql = "INSERT INTO utilisateur (`login`,`mot_de_passe`,`cod_client`) VALUES (?, ?, ?)";
+                $sql = "INSERT INTO utilisateur (`login`, `mot_De_Passe`, `cod_Client`) VALUES (?, ?, ?)";
                 $stmt = $this->bdd->prepare($sql);
-                $stmt->execute([$login, $motdepasse, $codClient]);
+                $result = $stmt->execute([$login, $motDePasse, $codClient]);
+                if (!$result) {
+                        $errorInfo = $stmt->errorInfo();
+                        echo "Erreur SQL : " . $errorInfo[2];
+                }
         }
+
         public function insertChambre($numChambre, $etage, $prix, $emplacement, $codeCategorie): void
         {
-                $sql = "INSERT INTO chambre (`num_chamb`,`etage`,`Prix`,`emplacement`,`code_categorie`) VALUES (?, ?, ?, ?, ?)";
+                $sql = "INSERT INTO chambre (`num_Chamb`, `etage`, `prix`, `emplacement`, `code_Categorie`) VALUES (?, ?, ?, ?, ?)";
                 $stmt = $this->bdd->prepare($sql);
-                $stmt->execute([$numChambre, $etage, $prix, $emplacement, $codeCategorie]);
+                $result = $stmt->execute([$numChambre, $etage, $prix, $emplacement, $codeCategorie]);
+                if (!$result) {
+                        $errorInfo = $stmt->errorInfo();
+                        echo "Erreur SQL : " . $errorInfo[2];
+                }
         }
 
         public function insertCategorie($codeCategorie, $designation, $numChamb): void
         {
-                $sql = "INSERT INTO categorie (`Code_categorie`,`Designation`,`num_chamb`) VALUES (?,?,?)";
+                $sql = "INSERT INTO categorie (`code_Categorie`, `designation`, `num_Chamb`) VALUES (?, ?, ?)";
                 $stmt = $this->bdd->prepare($sql);
-                $stmt->execute([$codeCategorie, $designation, $numChamb]);
+                $result = $stmt->execute([$codeCategorie, $designation, $numChamb]);
+                if (!$result) {
+                        $errorInfo = $stmt->errorInfo();
+                        echo "Erreur SQL : " . $errorInfo[2];
+                }
         }
-        public function insertReservation($numReservation, $dateReservation, $numchambre, $codeClient, $dateEntree, $dateSortie, $codClient): void
+
+        public function insertReservation($numReservation, $dateReservation, $numChamb, $codeClient, $dateEntree, $dateSortie, $codClient): void
         {
-                $sql = "INSERT INTO reservation (`Num_reservation`,`Date_reservation`,`num_chambre`,`code_client`,`date_entree`,`date_sortie`,`cod_client`) VALUES (?,?,?,?,?,?,?)";
+                $sql = "INSERT INTO reservation (`num_Reservation`, `date_Reservation`, `num_Chamb`, `code_Client`, `date_Entree`, `date_Sortie`, `cod_Client`) VALUES (?, ?, ?, ?, ?, ?, ?)";
                 $stmt = $this->bdd->prepare($sql);
-                $stmt->execute([$numReservation, $dateReservation, $numchambre, $codeClient, $dateEntree, $dateSortie, $codClient]);
+                $result = $stmt->execute([$numReservation, $dateReservation, $numChamb, $codeClient, $dateEntree, $dateSortie, $codClient]);
+                if (!$result) {
+                        $errorInfo = $stmt->errorInfo();
+                        echo "Erreur SQL : " . $errorInfo[2];
+                }
+        }
+
+        public function connexion($id, $pass)
+        {
+                $sql = "SELECT login, mot_De_Passe FROM utilisateur WHERE login = ? AND mot_De_Passe = ?";
+                $stmt = $this->bdd->prepare($sql);
+                $result = $stmt->execute([$id, $pass]);
+                if (!$result) {
+                        $errorInfo = $stmt->errorInfo();
+                        echo "Erreur SQL : " . $errorInfo[2];
+                        return null;
+                }
+                $result = $stmt->fetch();
+                return $result;
+        }
+
+        public function reservation($numChamb)
+        {
+                $sql = "DELETE FROM chambre WHERE num_Chamb = ?";
+                $stmt = $this->bdd->prepare($sql);
+                $result = $stmt->execute([$numChamb]);
+                if (!$result) {
+                        $errorInfo = $stmt->errorInfo();
+                        echo "Erreur SQL : " . $errorInfo[2];
+                }
+        }
+
+        public function getCodeUtilisateur($login)
+        {
+                $stmt = $this->bdd->prepare("SELECT cod_Client FROM utilisateur WHERE login = ?");
+                $stmt->execute([$login]);
+                $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                if ($result) {
+                        return $result['cod_Client'];
+                } else {
+                        $errorInfo = $stmt->errorInfo();
+                        echo "Erreur SQL : " . $errorInfo[2];
+                        return null;
+                }
         }
 
 
+        public function testInsert()
+        {
+                // // Crée un lien vers la base de données
+                $bdd = new DBManager('mysql:host=localhost;dbname=teamhotel;charset=utf8mb4', 'root', '');
 
-        // //methode qui supprime un employe par son noemp
-        // public function supprEmploye($noemp) : void {
 
-        // }
+                // Crée les chambres avec 3 catégories
+                for ($i = 0; $i < 30; $i++) {
+                        if ($i >= 20) {
+                                $bdd->insertChambre(100 + $i, 3, 579, "est", 3);
+                        } else if ($i >= 10 && $i < 20) {
+                                $bdd->insertChambre(100 + $i, 2, 1276, "sud", 2);
+                        } else if ($i < 10) {
+                                $bdd->insertChambre(100 + $i, 1, 3412, "nord", 1);
+                        }
+                }
 
-        // //methode qui mets à jour le salaire d'un amployé
-        // public function updateSalaireEmploye($noemp, $sal) : void {
+                // Crée les catégories de chambre
+                $bdd->insertCategorie(3, "Luxe", 120);
+                $bdd->insertCategorie(2, "SuperLuxe", 110);
+                $bdd->insertCategorie(1, "UltraLuxe", 100);
 
-        // }
+                // Ajoute un client
+                $bdd->insertClient(1, "John Doe", "123 Rue Principale", "0123456789", "France", "123456789");
 
+                // // Ajoute un utilisateur
+                $bdd->insertUtilisateur("admin", "admin", 1);
+        }
+
+        public function clearTable(): void
+        {
+                $tables = array("choisir", "Reservation", "Client", "Utilisateur", "Chambre", "Categorie");
+
+                foreach ($tables as $table) {
+                        $sql = "SET FOREIGN_KEY_CHECKS=0; TRUNCATE TABLE " . $table . "; SET FOREIGN_KEY_CHECKS=1;";
+                        $stmt = $this->bdd->prepare($sql);
+                        $stmt->execute();
+                }
+        }
 
         /**
          * Get the value of password
@@ -145,35 +276,3 @@ class DBManager
                 return $this;
         }
 }
-
-// $bdd->insertClient(1, "Loick", "adresse", "0611225544", "France", 1);
-// $bdd->insertUtilisateur("login", "pass", 2);
-// $bdd->insertChambre(102, 2, 250, "fgd", 5);
-// $bdd->insertCategorie(1, "df", 102);
-// $bdd->insertReservation(1, "2023/12/12", 145, 1, "2023/12/12", "2023/12/12", 1);
-// print_r($bdd->selectListeUtilisateur());
-
-//crée un lien vers la base de donnée
-$bdd = new DBManager('mysql:host=localhost;dbname=teamhotel;charset=utf8mb4', 'root', "");ù
-
-//crée utilisateur admin
-$bdd->insertUtilisateur("admin", "admin", 1);
-
-//crée les categories de chambre
-$bdd->insertCategorie(1, "Luxe", 100);
-$bdd->insertCategorie(2, "SuperLuxe", 110);
-$bdd->insertCategorie(3, "UltraLuxe", 120);
-
-
-//crée les chambres avec 3 categories
-for ($i = 0; $i < 30; $i++) {
-        if ($i >= 20) {
-                $bdd->insertChambre(100 + $i, 3, 579, "est", 3);
-        } else if ($i >= 10 && $i < 20) {
-                $bdd->insertChambre(100 + $i, 2, 1276, "sud", 2);
-        } else if ($i < 10) {
-                $bdd->insertChambre(100 + $i, 1, 3412, "nord", 1);
-        }
-}
-
-$bdd->insertClient(4, "moi", "dfsd", "0102020202", "France", 2);
