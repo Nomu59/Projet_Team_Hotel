@@ -1,0 +1,67 @@
+Body {
+background: linear-gradient(to right, rgba(73,155,234,1) 0%, rgb(15, 106, 211) 100%);
+display: flex;
+justify-content: center;
+align-items: center;
+height: 100vh;
+flex-direction: column;
+}
+
+*{
+font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+box-sizing: border-box;
+}
+
+form{
+width: 500px;
+border: 2px solid #c0bfbf;
+box-sizing: border-box;
+background: linear-gradient(to right, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%);
+box-shadow: 6px 6px 13px 0px rgba(0,0,0,0.75);
+border-radius: 15px;
+padding: 60px
+}
+
+h2{
+text-align: center;
+margin-bottom: 40px;
+}
+
+input{
+    display: block;
+    border: 2px solid #ccc;
+    width: 95%;
+    height: 40px; /* Définissez ici la hauteur souhaitée */
+    margin: 10px auto;
+    border-radius: 5px;
+}
+
+label{
+    color: #888;
+    font-size: 18px;
+    padding: 10px;
+}
+
+button {
+    float: right;
+    background: #131313;
+    padding: 10px 15px;
+    color: #fff;
+    border-radius: 5px;
+    margin-right: 10px;
+    border: 2px solid rgb(51, 51, 248);
+    box-shadow: 6px 6px 14px 0px rgba(0,0,0,0.75);
+}
+
+button:hover{
+opacity: .8;
+
+}
+.texte {
+    position: absolute ;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    font-size: 9px;
+  
+}
