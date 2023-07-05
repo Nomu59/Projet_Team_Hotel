@@ -8,13 +8,13 @@
 #------------------------------------------------------------
 
 CREATE TABLE CLIENT(
-        cod_client    Int NOT NULL ,
+        cod_Client    Int  Auto_increment  NOT NULL ,
         prenom_Client Varchar (50) NOT NULL ,
         adress_Client Varchar (50) NOT NULL ,
         tele_Client   Varchar (10) NOT NULL ,
-        Nationalite   Varchar (10) NOT NULL ,
-        Num_Passe     Int NOT NULL
-	,CONSTRAINT CLIENT_PK PRIMARY KEY (cod_client)
+        nationalite   Varchar (10) NOT NULL ,
+        num_Passe     Int NOT NULL
+	,CONSTRAINT CLIENT_PK PRIMARY KEY (cod_Client)
 )ENGINE=InnoDB;
 
 
@@ -23,12 +23,12 @@ CREATE TABLE CLIENT(
 #------------------------------------------------------------
 
 CREATE TABLE CHAMBRE(
-        num_chamb      Int NOT NULL ,
+        num_Chamb      Int NOT NULL ,
         etage          Int NOT NULL ,
-        Prix           Float NOT NULL ,
+        prix           Float NOT NULL ,
         emplacement    Varchar (50) NOT NULL ,
-        code_categorie Int NOT NULL
-	,CONSTRAINT CHAMBRE_PK PRIMARY KEY (num_chamb)
+        code_Categorie Int NOT NULL
+	,CONSTRAINT CHAMBRE_PK PRIMARY KEY (num_Chamb)
 )ENGINE=InnoDB;
 
 
@@ -37,12 +37,12 @@ CREATE TABLE CHAMBRE(
 #------------------------------------------------------------
 
 CREATE TABLE CATEGORIE(
-        Code_catgorie Int NOT NULL ,
-        Designation   Varchar (50) NOT NULL ,
-        num_chamb     Int NOT NULL
-	,CONSTRAINT CATEGORIE_PK PRIMARY KEY (Code_catgorie)
+        code_Categorie Int NOT NULL ,
+        designation    Varchar (50) NOT NULL ,
+        num_Chamb      Int NOT NULL
+	,CONSTRAINT CATEGORIE_PK PRIMARY KEY (code_Categorie)
 
-	,CONSTRAINT CATEGORIE_CHAMBRE_FK FOREIGN KEY (num_chamb) REFERENCES CHAMBRE(num_chamb)
+	,CONSTRAINT CATEGORIE_CHAMBRE_FK FOREIGN KEY (num_Chamb) REFERENCES CHAMBRE(num_Chamb)
 )ENGINE=InnoDB;
 
 
@@ -51,16 +51,16 @@ CREATE TABLE CATEGORIE(
 #------------------------------------------------------------
 
 CREATE TABLE RESERVATION(
-        Num_reservation  Int NOT NULL ,
-        Date_reservation Date NOT NULL ,
-        num_chamb        Int NOT NULL ,
+        num_Reservation  Int NOT NULL ,
+        date_Reservation Date NOT NULL ,
+        num_Chamb        Int NOT NULL ,
         code_Client      Int NOT NULL ,
-        date_entree      Date NOT NULL ,
-        date_sortie      Date NOT NULL ,
-        cod_client       Int NOT NULL
-	,CONSTRAINT RESERVATION_PK PRIMARY KEY (Num_reservation)
-
-	,CONSTRAINT RESERVATION_CLIENT_FK FOREIGN KEY (cod_client) REFERENCES CLIENT(cod_client)
+        date_Entree      Date NOT NULL ,
+        date_Sortie      Date NOT NULL ,
+        cod_Client       Int NOT NULL
+	,CONSTRAINT RESERVATION_PK PRIMARY KEY (num_Reservation)
+	,CONSTRAINT RESERVATION_CHAMBRE_FK FOREIGN KEY (num_Chamb) REFERENCES CHAMBRE(num_Chamb)
+	,CONSTRAINT RESERVATION_CLIENT_FK FOREIGN KEY (cod_Client) REFERENCES CLIENT(cod_Client)
 )ENGINE=InnoDB;
 
 
@@ -70,11 +70,11 @@ CREATE TABLE RESERVATION(
 
 CREATE TABLE Utilisateur(
         login        Varchar (50) NOT NULL ,
-        mot_de_passe Varchar (50) NOT NULL ,
-        cod_client   Int NOT NULL
+        mot_De_Passe Varchar (50) NOT NULL ,
+        cod_Client   Int NOT NULL
 	,CONSTRAINT Utilisateur_PK PRIMARY KEY (login)
 
-	,CONSTRAINT Utilisateur_CLIENT_FK FOREIGN KEY (cod_client) REFERENCES CLIENT(cod_client)
+	,CONSTRAINT Utilisateur_CLIENT_FK FOREIGN KEY (cod_Client) REFERENCES CLIENT(cod_Client)
 )ENGINE=InnoDB;
 
 
@@ -83,11 +83,11 @@ CREATE TABLE Utilisateur(
 #------------------------------------------------------------
 
 CREATE TABLE Choisir(
-        Num_reservation Int NOT NULL ,
-        num_chamb       Int NOT NULL
-	,CONSTRAINT Choisir_PK PRIMARY KEY (Num_reservation,num_chamb)
+        num_Reservation Int NOT NULL ,
+        num_Chamb       Int NOT NULL
+	,CONSTRAINT Choisir_PK PRIMARY KEY (num_Reservation,num_Chamb)
 
-	,CONSTRAINT Choisir_RESERVATION_FK FOREIGN KEY (Num_reservation) REFERENCES RESERVATION(Num_reservation)
-	,CONSTRAINT Choisir_CHAMBRE0_FK FOREIGN KEY (num_chamb) REFERENCES CHAMBRE(num_chamb)
+	,CONSTRAINT Choisir_RESERVATION_FK FOREIGN KEY (num_Reservation) REFERENCES RESERVATION(num_Reservation)
+	,CONSTRAINT Choisir_CHAMBRE0_FK FOREIGN KEY (num_Chamb) REFERENCES CHAMBRE(num_Chamb)
 )ENGINE=InnoDB;
 
