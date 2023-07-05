@@ -1,0 +1,93 @@
+#------------------------------------------------------------
+#        Script MySQL.
+#------------------------------------------------------------
+
+
+#------------------------------------------------------------
+# Table: CLIENT
+#------------------------------------------------------------
+
+CREATE TABLE CLIENT(
+        cod_Client    Int  Auto_increment  NOT NULL ,
+        prenom_Client Varchar (50) NOT NULL ,
+        adress_Client Varchar (50) NOT NULL ,
+        tele_Client   Varchar (10) NOT NULL ,
+        nationalite   Varchar (10) NOT NULL ,
+        num_Passe     Int NOT NULL
+	,CONSTRAINT CLIENT_PK PRIMARY KEY (cod_Client)
+)ENGINE=InnoDB;
+
+
+#------------------------------------------------------------
+# Table: CHAMBRE
+#------------------------------------------------------------
+
+CREATE TABLE CHAMBRE(
+        num_Chamb      Int NOT NULL ,
+        etage          Int NOT NULL ,
+        prix           Float NOT NULL ,
+        emplacement    Varchar (50) NOT NULL ,
+        code_Categorie Int NOT NULL
+	,CONSTRAINT CHAMBRE_PK PRIMARY KEY (num_Chamb)
+)ENGINE=InnoDB;
+
+
+#------------------------------------------------------------
+# Table: CATEGORIE
+#------------------------------------------------------------
+
+CREATE TABLE CATEGORIE(
+        code_Categorie Int NOT NULL ,
+        designation    Varchar (50) NOT NULL ,
+        num_Chamb      Int NOT NULL
+	,CONSTRAINT CATEGORIE_PK PRIMARY KEY (code_Categorie)
+
+	,CONSTRAINT CATEGORIE_CHAMBRE_FK FOREIGN KEY (num_Chamb) REFERENCES CHAMBRE(num_Chamb)
+)ENGINE=InnoDB;
+
+
+#------------------------------------------------------------
+# Table: RESERVATION
+#------------------------------------------------------------
+
+CREATE TABLE RESERVATION(
+        num_Reservation  Int NOT NULL ,
+        date_Reservation Date NOT NULL ,
+        num_Chamb        Int NOT NULL ,
+        code_Client      Int NOT NULL ,
+        date_Entree      Date NOT NULL ,
+        date_Sortie      Date NOT NULL ,
+        cod_Client       Int NOT NULL
+	,CONSTRAINT RESERVATION_PK PRIMARY KEY (num_Reservation)
+	,CONSTRAINT RESERVATION_CHAMBRE_FK FOREIGN KEY (num_Chamb) REFERENCES CHAMBRE(num_Chamb)
+	,CONSTRAINT RESERVATION_CLIENT_FK FOREIGN KEY (cod_Client) REFERENCES CLIENT(cod_Client)
+)ENGINE=InnoDB;
+
+
+#------------------------------------------------------------
+# Table: Utilisateur
+#------------------------------------------------------------
+
+CREATE TABLE Utilisateur(
+        login        Varchar (50) NOT NULL ,
+        mot_De_Passe Varchar (50) NOT NULL ,
+        cod_Client   Int NOT NULL
+	,CONSTRAINT Utilisateur_PK PRIMARY KEY (login)
+
+	,CONSTRAINT Utilisateur_CLIENT_FK FOREIGN KEY (cod_Client) REFERENCES CLIENT(cod_Client)
+)ENGINE=InnoDB;
+
+
+#------------------------------------------------------------
+# Table: Choisir
+#------------------------------------------------------------
+
+CREATE TABLE Choisir(
+        num_Reservation Int NOT NULL ,
+        num_Chamb       Int NOT NULL
+	,CONSTRAINT Choisir_PK PRIMARY KEY (num_Reservation,num_Chamb)
+
+	,CONSTRAINT Choisir_RESERVATION_FK FOREIGN KEY (num_Reservation) REFERENCES RESERVATION(num_Reservation)
+	,CONSTRAINT Choisir_CHAMBRE0_FK FOREIGN KEY (num_Chamb) REFERENCES CHAMBRE(num_Chamb)
+)ENGINE=InnoDB;
+
