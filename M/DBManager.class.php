@@ -17,8 +17,8 @@ class DBManager
                 $stmt = $this->bdd->prepare("SELECT * FROM `client`;");
                 $result = $stmt->execute();
                 if (!$result) {
-                        $errorInfo = $stmt->errorInfo();
-                        echo "Erreur SQL : " . $errorInfo[2];
+                        $_SESSION['errorInfo'] = $stmt->errorInfo();
+                        echo "Erreur SQL : " . $_SESSION['errorInfo'][2];
                         return [];
                 }
                 $listeClient = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -34,8 +34,8 @@ class DBManager
                         $stmt = $this->bdd->prepare("SELECT * FROM `chambre`;");
                         $result = $stmt->execute();
                         if (!$result) {
-                                $errorInfo = $stmt->errorInfo();
-                                echo "Erreur SQL : " . $errorInfo[2];
+                                $_SESSION['errorInfo'] = $stmt->errorInfo();
+                                echo "Erreur SQL : " . $_SESSION['errorInfo'][2];
                                 return [];
                         }
                         $listeChambre = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -44,8 +44,8 @@ class DBManager
                         $stmt = $this->bdd->prepare("SELECT * FROM chambre WHERE num_Chamb NOT IN (SELECT num_Chamb FROM reservation);");
                         $result = $stmt->execute();
                         if (!$result) {
-                                $errorInfo = $stmt->errorInfo();
-                                echo "Erreur SQL : " . $errorInfo[2];
+                                $_SESSION['errorInfo'] = $stmt->errorInfo();
+                                echo "Erreur SQL : " . $_SESSION['errorInfo'][2];
                                 return [];
                         }
                         $listeChambre = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -58,8 +58,8 @@ class DBManager
                 $stmt = $this->bdd->prepare("SELECT * FROM `reservation`;");
                 $result = $stmt->execute();
                 if (!$result) {
-                        $errorInfo = $stmt->errorInfo();
-                        echo "Erreur SQL : " . $errorInfo[2];
+                        $_SESSION['errorInfo'] = $stmt->errorInfo();
+                        echo "Erreur SQL : " . $_SESSION['errorInfo'][2];
                         return [];
                 }
                 $listeReservation = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -71,8 +71,8 @@ class DBManager
                 $stmt = $this->bdd->prepare("SELECT * FROM `utilisateur`;");
                 $result = $stmt->execute();
                 if (!$result) {
-                        $errorInfo = $stmt->errorInfo();
-                        echo "Erreur SQL : " . $errorInfo[2];
+                        $_SESSION['errorInfo'] = $stmt->errorInfo();
+                        echo "Erreur SQL : " . $_SESSION['errorInfo'][2];
                         return [];
                 }
                 $listeUtilisateur = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -80,25 +80,25 @@ class DBManager
         }
 
         // Méthode qui ajoute une personne
-        public function insertClient($codClient, $prenomClient, $adressClient, $teleClient, $nationalite, $numPasse): void
+        public function insertClient($prenomClient, $adressClient, $teleClient, $nationalite, $numPasse): void
         {
-                $sql = "INSERT INTO client (`cod_Client`, `prenom_Client`, `adress_Client`, `tele_Client`, `nationalite`, `num_Passe`) VALUES (?, ?, ?, ?, ?, ?)";
+                $sql = "INSERT INTO client (`prenom_Client`, `adress_Client`, `tele_Client`, `nationalite`, `num_Passe`) VALUES (?, ?, ?, ?, ?)";
                 $stmt = $this->bdd->prepare($sql);
-                $result = $stmt->execute([$codClient, $prenomClient, $adressClient, $teleClient, $nationalite, $numPasse]);
+                $result = $stmt->execute([$prenomClient, $adressClient, $teleClient, $nationalite, $numPasse]);
                 if (!$result) {
-                        $errorInfo = $stmt->errorInfo();
-                        echo "Erreur SQL : " . $errorInfo[2];
+                        $_SESSION['errorInfo'] = $stmt->errorInfo();
+                        echo "Erreur SQL : " . $_SESSION['errorInfo'][2];
                 }
         }
 
-        public function insertUtilisateur($login, $motDePasse, $codClient): void
+        public function insertUtilisateur($login, $motDePasse): void
         {
                 $sql = "INSERT INTO utilisateur (`login`, `mot_De_Passe`, `cod_Client`) VALUES (?, ?, ?)";
                 $stmt = $this->bdd->prepare($sql);
-                $result = $stmt->execute([$login, $motDePasse, $codClient]);
+                $result = $stmt->execute([$login, $motDePasse, count($this->selectListeClient())]);
                 if (!$result) {
-                        $errorInfo = $stmt->errorInfo();
-                        echo "Erreur SQL : " . $errorInfo[2];
+                        $_SESSION['errorInfo'] = $stmt->errorInfo();
+                        echo "Erreur SQL : " . $_SESSION['errorInfo'][2];
                 }
         }
 
@@ -108,8 +108,8 @@ class DBManager
                 $stmt = $this->bdd->prepare($sql);
                 $result = $stmt->execute([$numChambre, $etage, $prix, $emplacement, $codeCategorie]);
                 if (!$result) {
-                        $errorInfo = $stmt->errorInfo();
-                        echo "Erreur SQL : " . $errorInfo[2];
+                        $_SESSION['errorInfo'] = $stmt->errorInfo();
+                        echo "Erreur SQL : " . $_SESSION['errorInfo'][2];
                 }
         }
 
@@ -119,21 +119,45 @@ class DBManager
                 $stmt = $this->bdd->prepare($sql);
                 $result = $stmt->execute([$codeCategorie, $designation, $numChamb]);
                 if (!$result) {
-                        $errorInfo = $stmt->errorInfo();
-                        echo "Erreur SQL : " . $errorInfo[2];
+                        $_SESSION['errorInfo'] = $stmt->errorInfo();
+                        echo "Erreur SQL : " . $_SESSION['errorInfo'][2];
                 }
         }
 
-        public function insertReservation($numReservation, $dateReservation, $numChamb, $codeClient, $dateEntree, $dateSortie, $codClient): void
+        public function insertReservation($dateReservation, $numChamb, $dateEntree, $dateSortie, $codClient): void
         {
-                $sql = "INSERT INTO reservation (`num_Reservation`, `date_Reservation`, `num_Chamb`, `code_Client`, `date_Entree`, `date_Sortie`, `cod_Client`) VALUES (?, ?, ?, ?, ?, ?, ?)";
+                $sql = "INSERT INTO reservation (`date_Reservation`, `num_Chamb`, `date_Entree`, `date_Sortie`, `cod_Client`) VALUES (?, ?, ?, ?, ?)";
                 $stmt = $this->bdd->prepare($sql);
-                $result = $stmt->execute([$numReservation, $dateReservation, $numChamb, $codeClient, $dateEntree, $dateSortie, $codClient]);
+                $result = $stmt->execute([$dateReservation, $numChamb, $dateEntree, $dateSortie, $codClient]);
                 if (!$result) {
-                        $errorInfo = $stmt->errorInfo();
-                        echo "Erreur SQL : " . $errorInfo[2];
+                        $_SESSION['errorInfo'] = $stmt->errorInfo();
+                        echo "Erreur SQL : " . $_SESSION['errorInfo'][2];
                 }
         }
+
+        public function hashConnexion($id, $pass): bool
+        {
+                $sql = "SELECT login, mot_De_Passe, cod_Client FROM utilisateur WHERE login = ?";
+                $stmt = $this->bdd->prepare($sql);
+                $stmt->execute([$id]);
+                $result = $stmt->fetch();
+
+                if (!$result) {
+                        echo "Cet utilisateur n'existe pas";
+                        return false;
+                }
+
+                $storedHash = $result['mot_De_Passe'];
+                if (password_verify($pass, $storedHash)) {
+                        $_SESSION['cod_Client'] = $result['cod_Client']; // Ajout de la variable de session
+
+                        return true;
+                } else {
+                        echo "Identifiant ou mot de passe incorrect";
+                        return false;
+                }
+        }
+
 
         public function connexion($id, $pass)
         {
@@ -149,14 +173,15 @@ class DBManager
                 return $result;
         }
 
+
         public function reservation($numChamb)
         {
                 $sql = "DELETE FROM chambre WHERE num_Chamb = ?";
                 $stmt = $this->bdd->prepare($sql);
                 $result = $stmt->execute([$numChamb]);
                 if (!$result) {
-                        $errorInfo = $stmt->errorInfo();
-                        echo "Erreur SQL : " . $errorInfo[2];
+                        $_SESSION['errorInfo'] = $stmt->errorInfo();
+                        echo "Erreur SQL : " . $_SESSION['errorInfo'][2];
                 }
         }
 
@@ -169,8 +194,8 @@ class DBManager
                 if ($result) {
                         return $result['cod_Client'];
                 } else {
-                        $errorInfo = $stmt->errorInfo();
-                        echo "Erreur SQL : " . $errorInfo[2];
+                        $_SESSION['errorInfo'] = $stmt->errorInfo();
+                        echo "Erreur SQL : " . $_SESSION['errorInfo'][2];
                         return null;
                 }
         }
@@ -185,11 +210,14 @@ class DBManager
                 // Crée les chambres avec 3 catégories
                 for ($i = 0; $i < 30; $i++) {
                         if ($i >= 20) {
-                                $bdd->insertChambre(100 + $i, 3, 579, "est", 3);
+                                $prix = rand(500, 750);
+                                $bdd->insertChambre(100 + $i, 3, $prix, "Est", 3);
                         } else if ($i >= 10 && $i < 20) {
-                                $bdd->insertChambre(100 + $i, 2, 1276, "sud", 2);
+                                $prix = rand(1000, 1350);
+                                $bdd->insertChambre(100 + $i, 2, $prix, "Sud", 2);
                         } else if ($i < 10) {
-                                $bdd->insertChambre(100 + $i, 1, 3412, "nord", 1);
+                                $prix = rand(3200, 3800);
+                                $bdd->insertChambre(100 + $i, 1, $prix, "Nord", 1);
                         }
                 }
 
@@ -199,10 +227,10 @@ class DBManager
                 $bdd->insertCategorie(1, "UltraLuxe", 100);
 
                 // Ajoute un client
-                $bdd->insertClient(1, "John Doe", "123 Rue Principale", "0123456789", "France", "123456789");
+                // $bdd->insertClient(1, "John Doe", "123 Rue Principale", "0123456789", "France", "123456789");
 
                 // // Ajoute un utilisateur
-                $bdd->insertUtilisateur("admin", "admin", 1);
+                // $bdd->insertUtilisateur("admin", "admin", 1);
         }
 
         public function clearTable(): void
@@ -272,6 +300,26 @@ class DBManager
         public function setLien($lien)
         {
                 $this->lien = $lien;
+
+                return $this;
+        }
+
+        /**
+         * Get the value of bdd
+         */
+        public function getBdd()
+        {
+                return $this->bdd;
+        }
+
+        /**
+         * Set the value of bdd
+         *
+         * @return  self
+         */
+        public function setBdd($bdd)
+        {
+                $this->bdd = $bdd;
 
                 return $this;
         }
