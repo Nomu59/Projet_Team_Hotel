@@ -4,13 +4,18 @@ include_once "../M/DBManager.class.php";
 session_start();
 $id = $_SESSION['id'];
 $bdd = new DBManager('mysql:host=localhost;dbname=teamhotel;charset=utf8mb4', 'root', "");
-
 $arrivee = $_POST["arrivee"];
 $depart = $_POST["depart"];
 
+$arrivee2 = strtotime($_POST['arrivee']);
+$depart2 = strtotime($_POST['depart']);
+$diff = $depart2 - $arrivee2;
+$_SESSION['nbJour'] = $diff / 86400;
+
+
 // Condition vérifiant que les dates entrées précédemment sont valides
 if ($arrivee > $depart) {
-    // header("Location: index.php?error=Les dates sélectionnées sont invalides");
+    header("Location: index.php?error=Les dates sélectionnées sont invalides");
 }
 
 if (!isset($_GET['num_Chamb'])) {

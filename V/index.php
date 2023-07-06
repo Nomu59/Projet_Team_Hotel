@@ -36,10 +36,10 @@
         <div class="form1">
 
             <label for="arrivee">Arrivée :</label>
-            <input id="arrivee" name="arrivee" type="date" required />
+            <input id="arrivee" name="arrivee" type="date" value="<?php echo date('Y-m-d'); ?>" required />
 
             <label for="depart">Départ :</label>
-            <input id="depart" name="depart" type="date" required />
+            <input id="depart" name="depart" type="date" value="<?php echo date('Y-m-d'); ?>" required />
 
             <input id="nbPersonne" name="nbPersonne" type="text" placeholder="Nb de voyageurs" required>
 

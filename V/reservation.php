@@ -11,6 +11,7 @@
 <body>
     <?php
     session_start();
+    $nbJour = $_SESSION['nbJour'];
 
     if (isset($_GET['cat'])) {
         $categorie = $_GET['cat'];
@@ -35,7 +36,7 @@
                 if ($chambre[$i]["code_Categorie"] == $categorie) {
                     echo "<hr>";
                     echo "<p>Chambre numéro " . $chambre[$i]["num_Chamb"] . "</p>" .
-                        "<p>Le prix est de : " . $chambre[$i]["prix"] . "</p>";
+                        "<p>Le prix est de : " . ($chambre[$i]["prix"]*$nbJour) . "</p>";
                     echo "<br>";
 
                     echo "<a href='../C/ajoutReservation.ctrl.php?num_Chamb=" . $chambre[$i]["num_Chamb"] . "'>Réserver</a>";
