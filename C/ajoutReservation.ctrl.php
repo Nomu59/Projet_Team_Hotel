@@ -35,6 +35,7 @@ if (!isset($_GET['num_Chamb'])) {
         header("Location: ../V/connexion.php?error=Tu dois être connecté pour effectuer ceci");
         exit();
     }
+
 } else {
     $numChamb = $_GET['num_Chamb'];
     $_SESSION['num_Chamb'] = $numChamb;

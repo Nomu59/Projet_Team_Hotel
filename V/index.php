@@ -12,7 +12,7 @@
         <?php } ?>
         
     <!-- Formulaire de pré remplissage pour la réservation -->
-    <form action="reservation.php" method="post">
+    <form action="../C/ajoutReservation.ctrl.php" method="post">
         <label for="arrivee">Arrivée</label>
         <input id="arrivee" name="arrivee" type="date" required/>
 
@@ -25,9 +25,9 @@
         <label for="Classe">Classe</label>
         <select name="classe" id="classe" required>
             <option value="default">--Choisissez votre classe</option>
-            <option value="luxe">Luxe</option>
-            <option value="superLuxe">Ultra luxe</option>
-            <option value="ultraLuxe">Giga Luxe</option>
+            <option value="3">Luxe</option>
+            <option value="2">Ultra luxe</option>
+            <option value="1">Giga Luxe</option>
         </select>
 
         <input id="valider" name="valider" type="submit">

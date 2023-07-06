@@ -129,6 +129,12 @@ class DBManager
                 $sql = "INSERT INTO reservation (`date_Reservation`, `num_Chamb`, `date_Entree`, `date_Sortie`, `cod_Client`) VALUES (?, ?, ?, ?, ?)";
                 $stmt = $this->bdd->prepare($sql);
                 $result = $stmt->execute([$dateReservation, $numChamb, $dateEntree, $dateSortie, $codClient]);
+
+                $reservationCount = count($this->selectListeReservation());
+                $sql = "UPDATE chambre SET num_Reservation = " . $reservationCount . " WHERE num_Chamb = " . $numChamb;
+                $stmt = $this->bdd->prepare($sql);
+                $result = $stmt->execute([]);
+
                 if (!$result) {
                         $_SESSION['errorInfo'] = $stmt->errorInfo();
                         echo "Erreur SQL : " . $_SESSION['errorInfo'][2];
