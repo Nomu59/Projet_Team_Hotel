@@ -1,0 +1,476 @@
+/*Police des pages*/
+* {
+    font-family: "Krona One";
+}
+/*Début du header*/
+header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    position: fixed;
+    left: 0;
+    top: 0;
+    background-color: #0068B4;
+    height: 80px;
+    padding: 0 30px;
+    margin: 0px;
+    width: 97%;
+}
+.logo {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+
+.logo img {
+    height: 50px;
+    margin-right: 10px; 
+}
+
+.logo2 {
+    background: none;
+    border: none;
+}
+
+.BtnDeco{
+    justify-content: flex-end;
+    color: white;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+}
+.BtnInscri{
+    color: white;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+}
+/*Fin du header*/
+
+/*Debut du CSS de l'index*/
+nav {
+    display: flex;
+    height: 100%;
+    width: 100%;
+}
+
+.form1 {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    background-color: rgba(128, 128, 128, 0.15);
+    border-radius: 20px;
+    padding: 10px;
+    margin-top: 100px;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.form1 input {
+    padding: 5px;
+    margin: 5px;
+    font-size: 16px;
+    border: 2px solid #536383;
+    border-radius: 20px;
+    width: 200px;
+}
+
+.form1  label {
+    padding-top: 20px;
+}
+
+.BtnRecherche {
+    background-color: #0068B4;
+    flex-direction: row;
+    justify-content: center;
+    text-decoration: none;
+    color: white;
+    width: 140px;
+    height: 60px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    border: transparent;
+}
+
+.pub {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 5%;
+}
+
+.pub2 {
+    display:flex;
+    flex-direction: row;
+    justify-content: center;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    width: 100%;
+    padding-top: 0%;
+}
+.pub3{
+    background-color: rgba(128, 128, 128, 0.15);
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    padding-bottom: 2%;
+
+}
+
+h2 {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    color: black;
+}
+
+.BtnReserver {
+    background-color: #0068B4;
+    justify-content: center;
+    text-decoration: none;
+    color: white;
+    width: 140px;
+    height: 60px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    border: transparent;
+    margin: 0 auto;
+}
+
+.center-btn {
+    display: flex;
+    justify-content: center;
+}
+/*Fin du CSS de l'index*/
+
+/*Debut du CSS de la page connexion*/
+
+.Connexion {
+    display: block;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 10%;
+}
+
+.connexion2 input{
+
+    display: flex;
+    flex-direction: column;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 20px;
+    width: 500px;
+    margin-top: 30px;
+    border-radius: 10px;
+    font-size: 15px;
+}
+
+.BtnValider {
+    background-color: #0068B4;
+    justify-content: center;
+    text-decoration: none;
+    color: white;
+    width: 140px;
+    height: 60px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    border: transparent;
+    margin: 0 auto;
+    margin-top: 30px;
+}
+.BtnInscription{
+    background-color: #0068B4;
+    justify-content: center;
+    text-decoration: none;
+    color: white;
+    width: 140px;
+    height: 60px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    border: transparent;
+    margin: 0 auto;
+    margin-top: 30px;
+}
+
+h3 {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    font-size: 15px;
+}
+.icons {
+    display: flex;
+    justify-content: center;
+}
+
+.icons img{
+    margin: 15px;
+    width: 100px;
+}
+
+.BtnIcons {
+    background: none;
+    border: none;
+}
+/*Fin du CSS de la page connexion*/
+
+/*Début du CSS de la page réservation*/
+.chambre{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.chambre img{
+    width: 720px;
+    height: 520px;
+    margin-top: 150px;
+    margin-left: auto;
+
+}
+
+.ReservText{
+    margin-top: 150px;
+    margin-right: auto;
+    background-color: rgba(128, 128, 128, 0.15);
+    padding-top: 50px;
+    padding-bottom: 23px;
+    width: 500px;
+
+}
+
+.chambre ul {
+    margin-top: 100px;
+    margin-right: auto;
+}
+.chambre p {
+
+    display: flex;
+    justify-content: center;
+    font-size: 30px;
+}
+
+.chambre a {
+    background-color: #0068B4;
+    justify-content: center;
+    text-decoration: none;
+    color: white;
+    width: 115px;
+    height: 50px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    border: transparent;
+    margin: 0 auto;
+}
+
+.option{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: auto;
+    background-color: rgba(128, 128, 128, 0.15);
+    margin: 50px;
+    border-radius: 20px;
+    align-items: center;
+}
+
+.prix{
+    font-size: 30px;
+}
+
+.vertical-line{
+    border-left: 2px solid #000;
+    display: inline-block;
+    height: 100px;
+}
+
+.nomOption {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.option a {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+  
+.BtnAjout {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    background-color: #0068B4;
+    text-decoration: none;
+    color: white;
+    width: 115px;
+    height: 50px;
+    border-radius: 15px;
+    border: transparent;
+  }
+
+
+/*Fin du CSS de la page de réservation*/
+
+/*Début du CSS de la page afficherChambres*/
+
+.titre {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 150px;
+    margin-bottom: 100px;
+    background-color: rgba(128, 128, 128, 0.15);
+    margin-left: 400px;
+    margin-right: 400px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-radius: 25px;
+}
+
+.chambre2{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.chambre2 img{
+
+    width: 720px;
+    height: 520px;
+    margin-bottom: 150px;
+    margin-left: auto;
+
+}
+
+
+.chambre2 ul {
+    margin-top: 100px;
+    margin-right: auto;
+}
+.chambre2 p {
+
+    display: flex;
+    justify-content: center;
+    font-size: 30px;
+}
+
+.chambre2 a {
+    background-color: #0068B4;
+    justify-content: center;
+    text-decoration: none;
+    color: white;
+    width: 115px;
+    height: 50px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    border: transparent;
+    margin: 0 auto;
+}
+
+.ReservText2 {
+    background-color: rgba(128, 128, 128, 0.15);
+    margin: auto;
+    margin-bottom: 12%;
+    padding: 20px;
+    width: 500px;
+}
+  
+/*Fin du CSS de la page afficherChambres*/
+  
+/*Début du CSS de la page Inscription*/
+
+.inscription-page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.inscription-page .form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 30px;
+    border-radius: 10px;
+    font-size: 15px;
+    margin-top: 1%;
+    
+}
+
+.formulaire input{
+    display: flex;
+    flex-direction: column;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 20px;
+    width: 500px;
+    margin-top: 30px;
+    border-radius: 10px;
+    font-size: 15px;
+}
+
+.formulaire{
+    margin-top: 20px;
+}
+
+.title {
+    margin-top: 700px;
+    font-size: 32px;
+}
+.sign{
+    margin-top: 30px;
+}
+.sign2 {
+    background-color: #0068B4;
+    justify-content: center;
+    text-decoration: none;
+    color: white;
+    width: 115px;
+    height: 50px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    border: transparent;
+    margin: 0 auto;
+}
+
+.signup {
+     margin-top: 40px;
+     margin-bottom: 60px;
+}
+
+.signup a {
+    background-color: #0068B4;
+    text-decoration: none;
+    color: white;
+    width: 115px;
+    height: 50px;
+    border-radius: 15px;
+    border: transparent;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+/* du CSS de la page Inscription*/
+  
